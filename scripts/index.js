@@ -5,9 +5,9 @@ const cardTemplate = document.querySelector('#card-template').content;
 const cardContainer = document.querySelector('.places__list');
 
 // Функция создания карточки
-function createCard(cardData, cardDelete) {
-  // Клонируем содержимое шаблона
-  const cardElement = cardTemplate.cloneNode(true);
+function createCard(cardData, deleteHandler) {
+  // Клонируем конкретный элемент разметки
+  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   
   // Устанавливаем значения для карточки
   const cardImage = cardElement.querySelector('.card__image');
@@ -18,19 +18,18 @@ function createCard(cardData, cardDelete) {
   cardImage.alt = cardData.name;
   cardTitle.textContent = cardData.name;
 
-  // Добавляем обработчик для кнопки удаления
-  deleteButton.addEventListener('click', cardDelete);
+  deleteButton.addEventListener('click', () => deleteHandler(cardElement));
   
   return cardElement;
 }
 
 // Функция для удаления карточки
-function cardDelete(evt) {
-  evt.target.closest('.card').remove();
+function deleteCard(card) { 
+  card.remove(); 
 }
 
 // Выводим карточки на страницу
 initialCards.forEach((cardData) => {
-  const cardElement = createCard(cardData, cardDelete);
+  const cardElement = createCard(cardData, deleteCard);
   cardContainer.append(cardElement);
 });
