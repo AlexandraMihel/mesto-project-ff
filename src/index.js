@@ -6,12 +6,11 @@ import { createCard, handleLikeCard, handleDeleteCard } from './components/card.
 
 import { openPopup, closePopup } from './components/modal.js';  // импорт закрытия и открытия попапа 
 
-//Темплейт карточки
+// Темплейт карточки
 const cardTemplate = document.querySelector('#card-template').content;
 
-
 // DOM-узлы
-const cardContainer = document.querySelector('.places__list'); //куда добавляем карточки
+const cardContainer = document.querySelector('.places__list'); // куда добавляем карточки
 
 // попап редактирования профиля
 const editPopup = document.querySelector(".popup_type_edit");
@@ -20,16 +19,23 @@ const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
 const editProfileForm = document.forms['edit-profile'];
 
-//Добавление карточки 
+// Поля ввода для редактирования профиля
+const nameInput = editProfileForm.querySelector('[name="name"]');
+const jobInput = editProfileForm.querySelector('[name="description"]');
+
+// Добавление карточки
 const addCardPopup = document.querySelector('.popup_type_new-card');
 const openAddButton = document.querySelector('.profile__add-button');
 const addCardForm = document.forms['new-place'];
+
+// Поля ввода для добавления карточки
+const placeNameInput = addCardForm.querySelector('[name="place-name"]');
+const linkInput = addCardForm.querySelector('[name="link"]');
 
 // Попап для открытия изображения и его элементы
 const popupTypeImage = document.querySelector('.popup_type_image');
 const imagePopup = popupTypeImage.querySelector('.popup__image'); 
 const captionPopup = popupTypeImage.querySelector('.popup__caption'); 
-
 
 // Рендеринг карточек
 const renderCard = (cardData, method = 'prepend') => {
@@ -42,12 +48,9 @@ const renderCard = (cardData, method = 'prepend') => {
   cardContainer[method](cardElement);
 };
 
-
 // Функция обработки новой карточки
 function handleNewCardFormSubmit(evt) {
   evt.preventDefault();
-  const placeNameInput = addCardForm.querySelector('[name="place-name"]');
-  const linkInput = addCardForm.querySelector('[name="link"]');
 
   const newCardData = {
     name: placeNameInput.value,
@@ -62,8 +65,6 @@ function handleNewCardFormSubmit(evt) {
 // Функция обработки отправки формы профиля
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  const nameInput = editProfileForm.querySelector('[name="name"]');
-  const jobInput = editProfileForm.querySelector('[name="description"]');
 
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
@@ -81,9 +82,6 @@ const handleImageClick = (cardData) => {
 
 // Слушатели событий
 profileEditButton.addEventListener('click', () => {
-  const nameInput = editProfileForm.querySelector('[name="name"]');
-  const jobInput = editProfileForm.querySelector('[name="description"]');
-
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
 
