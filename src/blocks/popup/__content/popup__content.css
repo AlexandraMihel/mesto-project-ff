@@ -9,6 +9,14 @@
   padding: 34px 36px;
 }
 
+.popup__delete {
+  min-height: 180px;
+}
+
+.popup__avatar {
+  min-height: 180px;
+}
+
 @media screen and (max-width: 568px) {
   .popup__content {
     width: 100%;
