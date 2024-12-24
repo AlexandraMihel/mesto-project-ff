@@ -100,13 +100,13 @@ const renderCard = (cardData, method = 'prepend') => {
 
 // Функция для смены текста на кнопке
 function toggleButtonState(button, isLoading) {
-  const originalText = button.dataset.originalText || button.textContent; // Сохраняем оригинальный текст через data-атрибут
+  const originalText = button.dataset.originalText || button.textContent; 
   if (isLoading) {
-    button.textContent = 'Сохранение...'; // Текст во время загрузки
+    button.textContent = 'Сохранение...'; 
   } else {
-    button.textContent = originalText; // Восстанавливаем оригинальный текст
+    button.textContent = originalText; 
   }
-  button.dataset.originalText = originalText; // Сохраняем оригинальный текст для повторного использования
+  button.dataset.originalText = originalText; 
   return originalText;
 }
 
@@ -119,20 +119,20 @@ function handleNewCardFormSubmit(evt) {
     link: linkInput.value,
   };
 
-  const submitButton = getSubmitButton(addCardForm); // Используем новую функцию
+  const submitButton = getSubmitButton(addCardForm);
 
-  toggleButtonState(submitButton, true); // Меняем текст кнопки на "Сохранение..."
+  toggleButtonState(submitButton, true);
 
   createCardOnServer(newCardData)
     .then((createdCard) => {
       renderCard(createdCard, 'prepend');
       closePopup(addCardPopup);
       addCardForm.reset(); // Сбрасываем форму
-      toggleButtonState(submitButton, false); // Восстанавливаем оригинальный текст кнопки
+      toggleButtonState(submitButton, false); 
     })
     .catch((error) => {
       console.error('Ошибка при создании карточки:', error);
-      toggleButtonState(submitButton, false); // Восстанавливаем оригинальный текст кнопки в случае ошибки
+      toggleButtonState(submitButton, false); 
     });
 }
 
@@ -145,20 +145,20 @@ function handleProfileFormSubmit(evt) {
     about: jobInput.value,
   };
 
-  const submitButton = getSubmitButton(editProfileForm); // Используем новую функцию
+  const submitButton = getSubmitButton(editProfileForm); 
 
-  toggleButtonState(submitButton, true); // Меняем текст кнопки на "Сохранение..."
+  toggleButtonState(submitButton, true); 
 
   updateUserProfile(updatedUserInfo)
     .then((userData) => {
       profileTitle.textContent = userData.name;
       profileDescription.textContent = userData.about;
       closePopup(editPopup);
-      toggleButtonState(submitButton, false); // Восстанавливаем оригинальный текст кнопки
+      toggleButtonState(submitButton, false); 
     })
     .catch((err) => {
       console.error('Ошибка при обновлении профиля:', err);
-      toggleButtonState(submitButton, false); // Восстанавливаем оригинальный текст кнопки в случае ошибки
+      toggleButtonState(submitButton, false); 
     });
 }
 
@@ -192,7 +192,7 @@ Promise.all([loadUserInfo(), loadCards()])
     profileTitle.textContent = userData.name; 
     profileDescription.textContent = userData.about; 
 
-    // Обновляем аватар (убрали инлайн стили)
+    // Обновляем аватар
     if (userData.avatar) { 
       profileImage.classList.add('profile__image_has-avatar');
       profileImage.style.backgroundImage = `url('${userData.avatar}')`; 
@@ -231,18 +231,18 @@ function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
   const newAvatarUrl = avatarInput.value;
   
-  const submitButton = getSubmitButton(avatarForm); // Получаем кнопку отправки формы
+  const submitButton = getSubmitButton(avatarForm);
 
-  toggleButtonState(submitButton, true); // Меняем текст кнопки на "Сохранение..."
+  toggleButtonState(submitButton, true); 
 
   updateAvatar(newAvatarUrl)
     .then((data) => {
-      profileImage.style.backgroundImage = `url('${data.avatar}')`;  // Используем данные из ответа сервера
+      profileImage.style.backgroundImage = `url('${data.avatar}')`; 
       closePopup(popupNewAvatar);
-      toggleButtonState(submitButton, false); // Восстанавливаем оригинальный текст кнопки
+      toggleButtonState(submitButton, false); 
     })
     .catch((err) => {
       console.error('Ошибка при обновлении аватара:', err);
-      toggleButtonState(submitButton, false); // Восстанавливаем оригинальный текст кнопки в случае ошибки
+      toggleButtonState(submitButton, false); 
     });
 }
