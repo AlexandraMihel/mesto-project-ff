@@ -31,14 +31,14 @@ export const createCard = (
   cardLikeCounter.textContent = (cardData.likes || []).length;
 
   // Проверяем, принадлежит ли карточка текущему пользователю
+  // Проверяем, принадлежит ли карточка текущему пользователю 
   if (cardData.owner._id === userId) {
     cardDeleteButton.classList.remove('card__delete-button_disabled');
-    cardDeleteButton.style.display = 'block';
     cardDeleteButton.addEventListener('click', () => handleDeleteCard(cardElement, cardData));
   } else {
     cardDeleteButton.classList.add('card__delete-button_disabled');
-    cardDeleteButton.style.display = 'none';
   }
+
 
   cardLikeButton.addEventListener('click', () => handleLikeCard(cardData._id, cardLikeButton));
 

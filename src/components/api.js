@@ -6,129 +6,80 @@ const config = {
   }
 };
 
+// Функция для обработки ответа сервера
+function getResponseData(res) {
+  if (!res.ok) {
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+  return res.json();
+}
+
 // Запрос данных о пользователе
 export function loadUserInfo() {
   return fetch(`${config.baseUrl}/users/me`, {
-      headers: config.headers
-    })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(`Ошибка при запросе данных пользователя: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then(data => {
-      return data;
-    })
-    .catch((error) => {
-      console.error('Ошибка при загрузке данных о пользователе:', error);
-      throw error;
-    });
+    headers: config.headers
+  }).then(getResponseData);
 }
 
 // Запрос карточек
 export function loadCards() {
   return fetch(`${config.baseUrl}/cards`, {
-      headers: config.headers
-    })
-    .then(res => res.json())
-    .catch((error) => {
-      console.error('Ошибка при загрузке карточек:', error);
-    });
+    headers: config.headers
+  }).then(getResponseData);
 }
-
 
 // Функция для отправки данных на сервер для создания карточки
 export function createCardOnServer(cardData) {
   return fetch(`${config.baseUrl}/cards`, {
-      method: 'POST',
-      headers: config.headers,
-      body: JSON.stringify(cardData),
-    })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Ошибка при создании карточки');
-      }
-      return res.json();
-    })
-    .catch((error) => {
-      console.error('Ошибка при запросе создания карточки:', error);
-    });
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify(cardData)
+  }).then(getResponseData);
 }
-
 
 // Удаление карточки
 export function deleteCard(cardId) {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
-      method: 'DELETE',
-      headers: config.headers
-    })
-    .then(res => res.json())
-    .catch((error) => {
-      console.error('Ошибка при удалении карточки:', error);
-    });
+    method: 'DELETE',
+    headers: config.headers
+  }).then(getResponseData);
 }
 
 // Добавить лайк
 export function addLike(cardId) {
   return fetch(`${config.baseUrl}/cards/${cardId}/likes`, {
-      method: 'PUT',
-      headers: config.headers
-    })
-    .then(res => res.json()) 
-    .catch((error) => {
-      console.error('Ошибка при добавлении лайка:', error);
-    });
+    method: 'PUT',
+    headers: config.headers
+  }).then(getResponseData);
 }
 
 // Удалить лайк
 export function removeLike(cardId) {
   return fetch(`${config.baseUrl}/cards/${cardId}/likes`, {
-      method: 'DELETE',
-      headers: config.headers
-    })
-    .then(res => res.json()) 
-    .catch((error) => {
-      console.error('Ошибка при удалении лайка:', error);
-    });
+    method: 'DELETE',
+    headers: config.headers
+  }).then(getResponseData);
 }
 
 // Обновление аватара пользователя
 export function updateAvatar(avatarUrl) {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
-      method: 'PATCH',
-      headers: config.headers,
-      body: JSON.stringify({
-        avatar: avatarUrl
-      })
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: avatarUrl
     })
-    .then(res => res.json())
-    .catch((error) => {
-      console.error('Ошибка при обновлении аватара:', error);
-    });
+  }).then(getResponseData);
 }
 
 // Обновление данных профиля
-export function updateUserProfile({
-  name,
-  about
-}) {
+export function updateUserProfile({ name, about }) {
   return fetch(`${config.baseUrl}/users/me`, {
-      method: 'PATCH',
-      headers: config.headers,
-      body: JSON.stringify({
-        name: name,
-        about: about
-      })
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      name: name,
+      about: about
     })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Ошибка при обновлении профиля');
-      }
-      return res.json();
-    })
-    .catch((error) => {
-      console.error('Ошибка при обновлении профиля:', error);
-      throw error;
-    });
+  }).then(getResponseData);
 }
